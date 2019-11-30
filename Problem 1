@@ -1,0 +1,23 @@
+import pandas as pd
+
+wbb_math_data = {'Student':['Ice Bear', 'Panda', 'Grizzly'], 'Math': [80,95,79]}
+wbb_elec_data = {'Student':['Ice Bear', 'Panda', 'Grizzly'], 'Electronics': [85,81,83]}
+wbb_geas_data = {'Student':['Ice Bear', 'Panda', 'Grizzly'], 'GEAS': [90,79,93]}
+wbb_esat_data = {'Student':['Ice Bear', 'Panda', 'Grizzly'], 'ESAT': [93,89,88]}
+
+wbb_math = pd.DataFrame(wbb_math_data,columns=['Student', 'Math'])
+wbb_elec = pd.DataFrame(wbb_elec_data,columns=['Student', 'Electronics'])
+wbb_geas = pd.DataFrame(wbb_geas_data,columns=['Student', 'GEAS'])
+wbb_esat = pd.DataFrame(wbb_esat_data,columns=['Student', 'ESAT'])
+
+
+#----------------------------------------------------------------------
+wbb_mathelec = pd.merge(wbb_math, wbb_elec, how='outer', on='Student')
+wbb_geasesat = pd.merge(wbb_geas, wbb_esat, how='outer', on='Student')
+
+wbb = pd.merge(wbb_mathelec, wbb_geasesat, how='outer', on='Student')
+print(wbb, '\n\n')
+#----------------------------------------------------------------------
+
+wbb_LF = pd.melt(wbb,id_vars='Student',value_vars=['Math', 'Electronics', 'GEAS', 'ESAT']).rename(columns={'variable':'Subject'}).rename(columns={'value':'Grades'})
+print(wbb_LF)
